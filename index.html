@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>What Business Continuity Really Means</title>
+  <meta name="description" content="A practical reframing of business continuity in health and care, moving from internal system failures to neighbourhood survival when power, water and connectivity are degraded for days." />
+
+  <style>
+    :root{
+      --bg:#0b0c10;
+      --card:#11131a;
+      --ink:#eef1f5;
+      --muted:#b7c0cd;
+      --faint:rgba(255,255,255,0.08);
+      --line:rgba(255,255,255,0.12);
+      --accent:#8ab4ff;
+      --accent2:#a6ffd6;
+      --warn:#ffd28a;
+      --radius:18px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+      --max: 980px;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% -10%, rgba(138,180,255,0.18), transparent 55%),
+                  radial-gradient(900px 600px at 90% 15%, rgba(166,255,214,0.12), transparent 55%),
+                  var(--bg);
+      color:var(--ink);
+      line-height:1.55;
+    }
+
+    a{ color:var(--accent); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 34px 18px 70px;
+    }
+
+    header{
+      padding: 18px 0 6px;
+    }
+
+    .kicker{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 4px rgba(138,180,255,0.12);
+    }
+
+    h1{
+      margin: 14px 0 8px;
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.08;
+      letter-spacing:-0.02em;
+    }
+
+    .sub{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: clamp(16px, 1.6vw, 18px);
+      max-width: 64ch;
+    }
+
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin: 16px 0 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .pill{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      padding: 8px 12px;
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+    }
+
+    .card{
+      margin: 18px 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .inner{
+      padding: 22px 20px;
+    }
+
+    h2{
+      margin: 0 0 10px;
+      font-size: clamp(20px, 2.2vw, 26px);
+      letter-spacing:-0.01em;
+    }
+
+    p{ margin: 10px 0; }
+
+    .list{
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--faint);
+    }
+    .list li{
+      display:flex;
+      gap:12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--faint);
+      color: var(--ink);
+    }
+    .tick{
+      width: 18px;
+      height: 18px;
+      flex: 0 0 18px;
+      border-radius: 6px;
+      margin-top: 2px;
+      background: rgba(138,180,255,0.18);
+      border: 1px solid rgba(138,180,255,0.35);
+    }
+    .tick.warn{
+      background: rgba(255,210,138,0.18);
+      border: 1px solid rgba(255,210,138,0.35);
+    }
+    .tick.good{
+      background: rgba(166,255,214,0.14);
+      border: 1px solid rgba(166,255,214,0.3);
+    }
+
+    .quote{
+      margin: 0;
+      padding: 18px 20px;
+      background: rgba(0,0,0,0.25);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .quote p{
+      margin: 0;
+      font-size: clamp(18px, 2vw, 22px);
+      letter-spacing:-0.01em;
+    }
+    .quote .attribution{
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+    @media (min-width: 820px){
+      .grid{ grid-template-columns: 1fr 1fr; }
+    }
+
+    .mini{
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 16px;
+      background: rgba(255,255,255,0.03);
+    }
+    .mini h3{
+      margin: 0 0 6px;
+      font-size: 16px;
+      color: var(--ink);
+    }
+    .mini p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .callout{
+      border-left: 4px solid var(--accent);
+      background: rgba(138,180,255,0.08);
+      padding: 14px 16px;
+      border-radius: 14px;
+      margin: 14px 0 0;
+      color: var(--ink);
+    }
+
+    .danger{
+      border-left: 4px solid var(--warn);
+      background: rgba(255,210,138,0.08);
+    }
+
+    .footer{
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .spacer{ height: 8px; }
+
+    /* Smooth section anchors */
+    html { scroll-behavior: smooth; }
+    nav{
+      margin: 18px 0 0;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    nav a{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: var(--ink);
+      font-size: 14px;
+      text-decoration:none;
+    }
+    nav a:hover{
+      background: rgba(255,255,255,0.05);
+      text-decoration:none;
+    }
+    .navdot{
+      width:8px;height:8px;border-radius:50%;
+      background: rgba(255,255,255,0.25);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="kicker"><span class="dot"></span> Continuity, resilience, neighbourhood reality</div>
+      <h1>What Business Continuity Really Means</h1>
+      <p class="sub">
+        A practical reframing for Weymouth and Portland, moving from internal disruption planning to neighbourhood survival when power, water, fuel and connectivity are degraded for days.
+      </p>
+
+      <div class="meta">
+        <div class="pill">Written for PCN and INT leadership</div>
+        <div class="pill">Paper first, people first</div>
+        <div class="pill">Designed for real-world degradation</div>
+      </div>
+
+      <nav aria-label="Page navigation">
+        <a href="#what-we-mean"><span class="navdot"></span>What we usually mean</a>
+        <a href="#missing-question"><span class="navdot"></span>The missing question</a>
+        <a href="#when-it-goes-dark"><span class="navdot"></span>When systems go dark</a>
+        <a href="#lessons"><span class="navdot"></span>Lessons learned</a>
+        <a href="#why-here"><span class="navdot"></span>Why it matters here</a>
+        <a href="#missing-layer"><span class="navdot"></span>The missing layer</a>
+        <a href="#shift"><span class="navdot"></span>The quiet shift</a>
+      </nav>
+    </header>
+
+    <section id="what-we-mean" class="card">
+      <div class="inner">
+        <h2>What we usually mean by business continuity</h2>
+        <p>
+          When we say “business continuity” in health and care, we often picture sensible, necessary actions inside an organisation.
+          Things like phone diversion, staff working from home, laptops ready, paper appointment sheets, and a list of key contacts.
+        </p>
+
+        <ul class="list" aria-label="Common continuity actions">
+          <li><span class="tick"></span><div>If the phones go down, divert them.</div></li>
+          <li><span class="tick"></span><div>If IT fails, revert to paper for a short period.</div></li>
+          <li><span class="tick"></span><div>If staff cannot get in, ask them to work remotely.</div></li>
+          <li><span class="tick"></span><div>If a building closes, relocate to another site.</div></li>
+        </ul>
+
+        <div class="callout">
+          These plans are valuable. They reduce harm. They keep services moving. But they mainly address <strong>organisational disruption</strong>.
+        </div>
+      </div>
+    </section>
+
+    <section id="missing-question" class="card">
+      <div class="inner">
+        <h2>The missing question</h2>
+        <p>
+          There is one question that continuity plans often do not fully answer, because it sits outside the organisation.
+          It sits in the neighbourhood.
+        </p>
+      </div>
+
+      <div class="quote">
+        <p><strong>If power, data, fuel and connectivity are degraded for days rather than hours, where does a frail resident physically walk to for help?</strong></p>
+        <div class="attribution">Not who do they ring. Not which website they use. Where do they go.</div>
+      </div>
+
+      <div class="inner">
+        <p>
+          In prolonged disruption, the neighbourhood does not need another workflow.
+          It needs a <strong>human place</strong>.
+          Visible. Walkable. Calm. Predictable.
+        </p>
+
+        <div class="callout danger">
+          If the only way to reach care is a phone line, an app, or a car journey, then continuity fails the moment those assumptions fail.
+        </div>
+      </div>
+    </section>
+
+    <section id="when-it-goes-dark" class="card">
+      <div class="inner">
+        <h2>When systems go dark for days</h2>
+        <p>
+          This is no longer hypothetical. The pattern has repeated across multiple major incidents in recent decades.
+          Different causes, same outcome.
+        </p>
+
+        <div class="grid">
+          <div class="mini">
+            <h3>Texas, 2021</h3>
+            <p>Power and water outages across a huge region, with knock-on failures in fuel supply, connectivity and access to essentials.</p>
+          </div>
+          <div class="mini">
+            <h3>New Orleans, 2021</h3>
+            <p>Prolonged power loss after a major storm, with reliance shifting to physical relief points and known community anchors.</p>
+          </div>
+          <div class="mini">
+            <h3>New York City, 2012</h3>
+            <p>Extended outages after a major storm, with lift-dependency, pharmacy closures and local surge when visible help points vanished.</p>
+          </div>
+          <div class="mini">
+            <h3>Wildfire shutdowns</h3>
+            <p>Pre-emptive power cuts and degraded comms in repeated events, disproportionately affecting older and clinically vulnerable residents.</p>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <p>
+          In these situations, health systems technically still exist.
+          But the neighbourhood layer collapses first.
+        </p>
+
+        <ul class="list" aria-label="What fails first">
+          <li><span class="tick warn"></span><div>Mobile networks degrade or become overloaded.</div></li>
+          <li><span class="tick warn"></span><div>Fuel pumps cannot operate, travel becomes unreliable.</div></li>
+          <li><span class="tick warn"></span><div>Pharmacies close, refrigeration fails, medication continuity breaks.</div></li>
+          <li><span class="tick warn"></span><div>Home medical equipment stops, including oxygen concentrators.</div></li>
+          <li><span class="tick warn"></span><div>Panic rises, safeguarding risk increases, emergency departments surge.</div></li>
+        </ul>
+
+        <div class="callout">
+          The demand does not disappear. It simply changes shape and moves into physical space.
+        </div>
+      </div>
+    </section>
+
+    <section id="lessons" class="card">
+      <div class="inner">
+        <h2>Lessons learned, the pattern is consistent</h2>
+        <p>
+          Across these incidents, survival and stability depend on the same ingredients.
+          They are not high-tech. They are human.
+        </p>
+
+        <ul class="list" aria-label="What works">
+          <li><span class="tick good"></span><div><strong>Physical neighbourhood hubs</strong> that are visible and open at predictable times.</div></li>
+          <li><span class="tick good"></span><div><strong>Known local faces</strong> who can reassure, route, and hold calm.</div></li>
+          <li><span class="tick good"></span><div><strong>Paper routing</strong>, notice walls, and simple status updates that reduce confusion.</div></li>
+          <li><span class="tick good"></span><div><strong>Walkable access</strong>, because transport assumptions fail under strain.</div></li>
+          <li><span class="tick good"></span><div><strong>Medication continuity</strong> for the small group who cannot safely wait.</div></li>
+          <li><span class="tick good"></span><div><strong>Safeguarding and escalation clarity</strong>, because vulnerability intensifies during disruption.</div></li>
+        </ul>
+
+        <div class="callout">
+          In prolonged disruption, continuity becomes less about keeping the organisation functioning, and more about keeping the neighbourhood safe.
+        </div>
+      </div>
+    </section>
+
+    <section id="why-here" class="card">
+      <div class="inner">
+        <h2>Why this matters for Weymouth and Portland</h2>
+        <p>
+          Prolonged disruption is not an “American problem”. It is a modern infrastructure reality.
+          Heat, storms, cyber incidents, supply chain shocks and fuel constraints all produce the same stress pattern.
+        </p>
+        <p>
+          Our continuity plans already cover many internal scenarios well. What they do not yet fully provide is a
+          <strong>neighbourhood level continuity point</strong>, a place designed to absorb local pressure.
+        </p>
+
+        <div class="callout danger">
+          Without a visible local help point, the system creates a vacuum. People fill vacuums with panic, rumour, and emergency attendance.
+        </div>
+      </div>
+    </section>
+
+    <section id="missing-layer" class="card">
+      <div class="inner">
+        <h2>The missing layer is not another plan</h2>
+        <p>
+          The missing layer is physical. It is a presence layer.
+          A walkable, low-tech neighbourhood continuity space that can operate when digital assumptions fail.
+        </p>
+
+        <div class="quote">
+          <p><strong>Continuity is not just about systems. It is about where people go, who they see, and whether care still feels present.</strong></p>
+          <div class="attribution">This is what reduces surge. This is what reduces harm.</div>
+        </div>
+
+        <div class="inner">
+          <p>
+            Think of it as a neighbourhood lifeboat station. Not an emergency bunker. Not a new service.
+            A calm, practical, offline-ready presence that can do three things:
+          </p>
+
+          <ul class="list" aria-label="Three roles">
+            <li><span class="tick"></span><div><strong>Navigation and reassurance</strong> for people who are stuck, confused, or digitally excluded.</div></li>
+            <li><span class="tick"></span><div><strong>INT coordination and presence</strong>, a real place where neighbourhood working is visible.</div></li>
+            <li><span class="tick"></span><div><strong>Offline continuity</strong> for prolonged disruption, paper routing, safeguarding, and critical medication continuity.</div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="shift" class="card">
+      <div class="inner">
+        <h2>The quiet shift</h2>
+        <p>
+          Business continuity is evolving.
+          Not from digital to analogue, but from internal continuity to neighbourhood continuity.
+        </p>
+
+        <div class="callout">
+          If we can create one physical presence layer, we can keep care visible when everything else goes quiet.
+        </div>
+
+        <p>
+          This is not a programme. It is not a campaign.
+          It is a place.
+          A presence.
+          A neighbourhood that still knows how to care.
+        </p>
+
+        <div class="footer">
+          <div><strong>Note:</strong> This scroll-site is intentionally written to reframe the category of continuity planning. It is a starting point for discussion and design, not a final operational plan.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
